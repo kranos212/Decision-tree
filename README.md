@@ -1,5 +1,8 @@
 # infogain-tree
 
+[![CI](https://github.com/kranos212/Decision-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/kranos212/Decision-tree/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/infogain-tree)](https://pypi.org/project/infogain-tree/)
+
 A decision tree classifier written from scratch with **numpy** and **pandas**. It picks splits by **entropy** and **information gain**.
 
 - Numeric features get binary threshold splits (`x <= t`). Categorical features get multiway splits (one branch per category, as in ID3).
