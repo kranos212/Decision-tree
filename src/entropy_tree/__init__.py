@@ -9,7 +9,7 @@ from .utils import (
     train_test_split,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.1.2"
 
 __all__ = [
     "DecisionTreeClassifier",
