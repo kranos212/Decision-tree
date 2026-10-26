@@ -1,7 +1,7 @@
 # Report: decision tree from scratch with entropy and information gain
 
 **GitHub repository:** https://github.com/kranos212/Decision-tree
-**PyPI package:** https://pypi.org/project/entropy-tree/ (`pip install entropy-tree`)
+**PyPI package:** https://pypi.org/project/infogain-tree/ (`pip install infogain-tree`)
 
 ## 1. Goal
 
@@ -12,7 +12,7 @@ Build a decision tree classifier from scratch (no scikit-learn), with:
 | Split selection with entropy and information gain | ✅ `entropy_tree/tree.py` |
 | Hyperparameters for the size of the tree | ✅ `max_depth`, `min_samples_split`, `min_samples_leaf`, `min_information_gain`, `max_leaf_nodes` |
 | Bonus: display the tree | ✅ text (`print_tree`), matplotlib (`plot`), Graphviz (`to_dot`) |
-| Bonus: package on PyPI | ✅ packaged as `entropy-tree` (`pyproject.toml`) |
+| Bonus: package on PyPI | ✅ packaged as `infogain-tree` (`pyproject.toml`) |
 
 The only dependencies are `numpy` and `pandas`. `matplotlib` is optional and only needed for `plot()`.
 

@@ -1,4 +1,4 @@
-# entropy-tree
+# infogain-tree
 
 A decision tree classifier written from scratch with **numpy** and **pandas**. It picks splits by **entropy** and **information gain**.
 
@@ -10,11 +10,13 @@ A decision tree classifier written from scratch with **numpy** and **pandas**. I
 ## Installation
 
 ```bash
-pip install entropy-tree            # from PyPI
-pip install "entropy-tree[plot]"    # with matplotlib, for tree.plot()
+pip install infogain-tree            # from PyPI
+pip install "infogain-tree[plot]"    # with matplotlib, for tree.plot()
 # or, from a clone of this repository:
 pip install -e ".[plot]"
 ```
+
+The package installs as `infogain-tree` and is imported as `entropy_tree`.
 
 ## Quick start
 

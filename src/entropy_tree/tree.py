@@ -381,12 +381,12 @@ class DecisionTreeClassifier:
         return "\n".join(lines)
 
     def plot(self, ax=None, decimals: int = 2, fontsize: int = 9, figsize=None):
-        """Draw the tree with matplotlib (``pip install entropy-tree[plot]``). Returns the axes."""
+        """Draw the tree with matplotlib (``pip install infogain-tree[plot]``). Returns the axes."""
         self._check_fitted()
         try:
             import matplotlib.pyplot as plt
         except ImportError as exc:  # pragma: no cover
-            raise ImportError("plot() needs matplotlib: pip install entropy-tree[plot]") from exc
+            raise ImportError("plot() needs matplotlib: pip install infogain-tree[plot]") from exc
 
         # leaves are spread evenly on x, parents are centred above their children
         positions, next_x = {}, [0]
