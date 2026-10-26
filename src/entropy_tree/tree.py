@@ -6,6 +6,7 @@ features with a multiway split (one branch per category, as in ID3).
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -340,25 +341,38 @@ class DecisionTreeClassifier:
 
     # -------------------------------------------------------------- display
 
-    def export_text(self, decimals: int = 3) -> str:
-        """Readable text rendering of the tree."""
+    _UNICODE_GLYPHS = {"tee": "├── ", "last": "└── ", "pipe": "│   ", "arrow": "→"}
+    _ASCII_GLYPHS = {"tee": "|-- ", "last": "`-- ", "pipe": "|   ", "arrow": "->"}
+
+    def export_text(self, decimals: int = 3, ascii: bool = False) -> str:
+        """Readable text rendering of the tree (``ascii=True`` avoids box-drawing characters)."""
         self._check_fitted()
+        glyphs = self._ASCII_GLYPHS if ascii else self._UNICODE_GLYPHS
         lines = [self._describe(self.root_, decimals)]
 
         def walk(node: Node, prefix: str):
             items = list(node.children.items())
             for i, (key, child) in enumerate(items):
                 last = i == len(items) - 1
-                branch = "└── " if last else "├── "
+                branch = glyphs["last"] if last else glyphs["tee"]
                 lines.append(f"{prefix}{branch}{self._edge_label(node, key, decimals)}"
-                             f" → {self._describe(child, decimals)}")
-                walk(child, prefix + ("    " if last else "│   "))
+                             f" {glyphs['arrow']} {self._describe(child, decimals)}")
+                walk(child, prefix + ("    " if last else glyphs["pipe"]))
 
         walk(self.root_, "")
         return "\n".join(lines)
 
-    def print_tree(self, decimals: int = 3) -> None:
-        print(self.export_text(decimals))
+    def print_tree(self, decimals: int = 3, ascii: bool | None = None) -> None:
+        """Print the tree. By default falls back to ASCII when the console cannot
+        show box-drawing characters (e.g. cp1252 on Windows when output is redirected)."""
+        if ascii is None:
+            encoding = getattr(sys.stdout, "encoding", None) or "ascii"
+            try:
+                "".join(self._UNICODE_GLYPHS.values()).encode(encoding)
+                ascii = False
+            except (UnicodeEncodeError, LookupError):
+                ascii = True
+        print(self.export_text(decimals, ascii=ascii))
 
     def to_dot(self, decimals: int = 3) -> str:
         """Graphviz DOT source of the tree (render with ``dot -Tpng tree.dot -o tree.png``)."""

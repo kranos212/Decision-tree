@@ -105,9 +105,23 @@ class TestTree(unittest.TestCase):
         text = tree.export_text()
         self.assertIn("split on 'outlook'", text)
         self.assertIn("outlook = overcast → predict 'yes'", text)
+        ascii_text = tree.export_text(ascii=True)
+        ascii_text.encode("ascii")  # must not raise
+        self.assertIn("outlook = overcast -> predict 'yes'", ascii_text)
         dot = tree.to_dot()
         self.assertTrue(dot.startswith("digraph"))
         self.assertEqual(dot.count("->"), 7)
+
+    def test_print_tree_on_cp1252_console(self):
+        import io
+        from contextlib import redirect_stdout
+
+        tree = any_df_decision_tree(load_play_tennis(), "play")
+        buffer = io.TextIOWrapper(io.BytesIO(), encoding="cp1252")
+        with redirect_stdout(buffer):
+            tree.print_tree()  # used to raise UnicodeEncodeError
+        buffer.seek(0)
+        self.assertIn("|-- outlook = overcast", buffer.read())
 
     def test_errors(self):
         with self.assertRaises(RuntimeError):
